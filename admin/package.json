@@ -1,0 +1,8 @@
+{
+  "name": "@gngt/material/admin",
+  "typings": "../admin.d.ts",
+  "main": "../bundles/material-admin.umd.js",
+  "module": "../esm5/admin.es5.js",
+  "es2015": "../esm2015/admin.js",
+  "sideEffects": false
+}
