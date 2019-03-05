@@ -117,7 +117,8 @@ AdminEditComponent.decorators = [
                     'processFormData',
                     'processObject',
                     'id'
-                ]
+                ],
+                outputs: ['valueChanges$']
             },] },
 ];
 /** @nocollapse */
