@@ -19,7 +19,7 @@
  *
  */
 import { CommonModule } from '@angular/common';
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, Injectable, ChangeDetectorRef, Input, ViewChild, NgModule } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, Injectable, ChangeDetectorRef, Directive, TemplateRef, Input, ViewChild, ContentChildren, NgModule } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -136,6 +136,27 @@ var AdminEditComponent = /** @class */ (function (_super) {
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
+var AdminListCellDirective = /** @class */ (function () {
+    function AdminListCellDirective(templateRef) {
+        this.templateRef = templateRef;
+    }
+    AdminListCellDirective.decorators = [
+        { type: Directive, args: [{ selector: '[gngtAdminListCell]' },] },
+    ];
+    /** @nocollapse */
+    AdminListCellDirective.ctorParameters = function () { return [
+        { type: TemplateRef }
+    ]; };
+    AdminListCellDirective.propDecorators = {
+        column: [{ type: Input, args: ['gngtAdminListCell',] }]
+    };
+    return AdminListCellDirective;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 /**
  * @template T, S, A1, A2, A3, A4, A5, A6, A7, MS
  */
@@ -144,8 +165,34 @@ var AdminListComponent = /** @class */ (function (_super) {
     function AdminListComponent(cdr, aui) {
         var _this = _super.call(this, cdr, aui) || this;
         _this.selection = new SelectionModel(true, []);
+        _this._cellTemplatesMap = {};
         return _this;
     }
+    Object.defineProperty(AdminListComponent.prototype, "cellTemplatesMap", {
+        get: /**
+         * @return {?}
+         */
+        function () { return this._cellTemplatesMap; },
+        enumerable: true,
+        configurable: true
+    });
+    /**
+     * @return {?}
+     */
+    AdminListComponent.prototype.ngAfterContentInit = /**
+     * @return {?}
+     */
+    function () {
+        this._cellTemplatesMap = this.cellTemplates.reduce((/**
+         * @param {?} prev
+         * @param {?} cur
+         * @return {?}
+         */
+        function (prev, cur) {
+            prev[cur.column] = cur.templateRef;
+            return prev;
+        }), (/** @type {?} */ ({})));
+    };
     /**
      * @return {?}
      */
@@ -208,7 +255,7 @@ var AdminListComponent = /** @class */ (function (_super) {
     };
     AdminListComponent.decorators = [
         { type: Component, args: [{selector: 'gngt-admin-list',
-                    template: "<mat-card><h2 mat-card-header>{{ title }}</h2><button [routerLink]=\"baseEditUrl + newItemPath\" mat-mini-fab color=\"primary\"><mat-icon>add</mat-icon></button><mat-card-content><mat-toolbar><div class=\"gngt-actions\"><mat-select #actionSel [disabled]=\"!selection.hasValue()\" [placeholder]=\"'Action' | translate\"><mat-option value=\"delete\">{{ 'Delete' | translate }}</mat-option></mat-select><span class=\"gngt-spacer\"></span> <button mat-raised-button [disabled]=\"!actionSel.value\" (click)=\"processAction(actionSel.value)\">{{ 'Apply' | translate }}</button></div><span class=\"gngt-filler\"></span><mat-paginator [pageSizeOptions]=\"[20, 50, 100]\" showFirstLastButtons></mat-paginator></mat-toolbar><table mat-table [dataSource]=\"dataSource\" matSort><ng-container matColumnDef=\"select\"><th mat-header-cell *matHeaderCellDef><mat-checkbox (change)=\"$event ? masterToggle() : null\" [checked]=\"selection.hasValue() && isAllSelected()\" [indeterminate]=\"selection.hasValue() && !isAllSelected()\"></mat-checkbox></th><td class=\"gngt-select\" mat-cell *matCellDef=\"let row\"><mat-checkbox (click)=\"$event.stopPropagation()\" (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\"></mat-checkbox></td></ng-container><ng-container *ngFor=\"let header of headers\" [matColumnDef]=\"header.column\"><ng-container *ngIf=\"header.sortable; else notSortable\"><th mat-header-cell *matHeaderCellDef mat-sort-header>{{ header.label | translate }}</th></ng-container><ng-template #notSortable><th mat-header-cell *matHeaderCellDef>{{ header.label | translate }}</th></ng-template><td [routerLink]=\"baseEditUrl + element.id\" mat-cell *matCellDef=\"let element\">{{ element|gngtGetObjectProperty:header.column }}</td></ng-container><tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr><tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr></table></mat-card-content></mat-card>",
+                    template: "<mat-card><h2 mat-card-header>{{ title }}</h2><button [routerLink]=\"baseEditUrl + newItemPath\" mat-mini-fab color=\"primary\"><mat-icon>add</mat-icon></button><mat-card-content><mat-toolbar><div class=\"gngt-actions\"><mat-select #actionSel [disabled]=\"!selection.hasValue()\" [placeholder]=\"'Action' | translate\"><mat-option value=\"delete\">{{ 'Delete' | translate }}</mat-option></mat-select><span class=\"gngt-spacer\"></span> <button mat-raised-button [disabled]=\"!actionSel.value\" (click)=\"processAction(actionSel.value)\">{{ 'Apply' | translate }}</button></div><span class=\"gngt-filler\"></span><mat-paginator [pageSizeOptions]=\"[20, 50, 100]\" showFirstLastButtons></mat-paginator></mat-toolbar><table mat-table [dataSource]=\"dataSource\" matSort><ng-container matColumnDef=\"select\"><th mat-header-cell *matHeaderCellDef><mat-checkbox (change)=\"$event ? masterToggle() : null\" [checked]=\"selection.hasValue() && isAllSelected()\" [indeterminate]=\"selection.hasValue() && !isAllSelected()\"></mat-checkbox></th><td class=\"gngt-select\" mat-cell *matCellDef=\"let row\"><mat-checkbox (click)=\"$event.stopPropagation()\" (change)=\"$event ? selection.toggle(row) : null\" [checked]=\"selection.isSelected(row)\"></mat-checkbox></td></ng-container><ng-container *ngFor=\"let header of headers\" [matColumnDef]=\"header.column\"><ng-container *ngIf=\"header.sortable; else notSortable\"><th mat-header-cell *matHeaderCellDef mat-sort-header><ng-container *ngTemplateOutlet=\"cellTemplatesMap[header.label] ? cellTemplatesMap[header.label] : defaultHeaderCellTemplate; context: {$implicit: header.label | translate}\"></ng-container></th></ng-container><ng-template #notSortable><th mat-header-cell *matHeaderCellDef><ng-container *ngTemplateOutlet=\"cellTemplatesMap[header.label] ? cellTemplatesMap[header.label] : defaultHeaderCellTemplate; context: {$implicit: header.label | translate}\"></ng-container></th></ng-template><ng-template #defaultHeaderCellTemplate>{{ header.label | translate }}</ng-template><td [routerLink]=\"baseEditUrl + element.id\" mat-cell *matCellDef=\"let element\"><ng-container *ngTemplateOutlet=\"cellTemplatesMap[header.column] ? cellTemplatesMap[header.column] : defaultCellTemplate; context: {$implicit: element|gngtGetObjectProperty:header.column}\"></ng-container><ng-template #defaultCellTemplate>{{ element|gngtGetObjectProperty:header.column }}</ng-template></td></ng-container><tr mat-header-row *matHeaderRowDef=\"displayedColumns\"></tr><tr mat-row *matRowDef=\"let row; columns: displayedColumns;\"></tr></table></mat-card-content></mat-card>",
                     styles: ["gngt-admin-list{display:block}gngt-admin-list>.mat-card>[mat-card-header]{margin:-24px -24px 48px;padding:24px;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)}gngt-admin-list>.mat-card>[mat-card-header]+[mat-mini-fab]{position:absolute;right:24px;margin-top:-70px}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar{margin:1em 0}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar .gngt-spacer{flex:0 0 .5em}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar .gngt-filler{flex:1 1 auto}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar .mat-paginator{background:0 0}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar .gngt-actions{display:flex;align-items:center}gngt-admin-list>.mat-card>.mat-card-content>.mat-toolbar .gngt-actions>*{flex-shrink:0}gngt-admin-list>.mat-card>.mat-card-content table{width:100%}gngt-admin-list>.mat-card>.mat-card-content table td:not(.gngt-select){cursor:pointer}"],
                     changeDetection: ChangeDetectionStrategy.OnPush,
                     encapsulation: ViewEncapsulation.None,
@@ -231,7 +278,8 @@ var AdminListComponent = /** @class */ (function (_super) {
         dataSource: [{ type: Input }],
         paginatorCmp: [{ type: ViewChild, args: [MatPaginator,] }],
         sortCmp: [{ type: ViewChild, args: [MatSort,] }],
-        actionSel: [{ type: ViewChild, args: ['actionSel', { read: MatSelect },] }]
+        actionSel: [{ type: ViewChild, args: ['actionSel', { read: MatSelect },] }],
+        cellTemplates: [{ type: ContentChildren, args: [AdminListCellDirective,] }]
     };
     return AdminListComponent;
 }(AdminListComponent$1));
@@ -269,11 +317,13 @@ var AdminModule = /** @class */ (function () {
                     declarations: [
                         AdminDeleteConfirmDialogComponent,
                         AdminEditComponent,
-                        AdminListComponent
+                        AdminListCellDirective,
+                        AdminListComponent,
                     ],
                     exports: [
                         AdminEditComponent,
-                        AdminListComponent
+                        AdminListCellDirective,
+                        AdminListComponent,
                     ],
                     entryComponents: [
                         AdminDeleteConfirmDialogComponent
@@ -296,5 +346,5 @@ var AdminModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AdminModule, AdminUserInteractionsService, AdminEditComponent, AdminListComponent, AdminDeleteConfirmDialogComponent as ɵa };
+export { AdminModule, AdminUserInteractionsService, AdminEditComponent, AdminListComponent, AdminDeleteConfirmDialogComponent as ɵa, AdminListCellDirective as ɵb };
 //# sourceMappingURL=admin.es5.js.map

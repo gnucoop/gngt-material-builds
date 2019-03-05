@@ -18,7 +18,7 @@
  * along with Gnucoop Angular Toolkit (gngt).  If not, see http://www.gnu.org/licenses/.
  *
  */
-import { ChangeDetectorRef, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, ChangeDetectorRef, OnDestroy, OnInit, QueryList, TemplateRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelect } from '@angular/material/select';
@@ -27,13 +27,20 @@ import { AdminListComponent as BaseAdminListComponent } from '@gngt/core/admin';
 import { Model, ModelActions, ModelService, reducers as fromModel } from '@gngt/core/model';
 import { ModelDataSource } from '@gngt/material/model';
 import { AdminUserInteractionsService } from './admin-user-interactions';
-export declare class AdminListComponent<T extends Model, S extends fromModel.State<T>, A1 extends ModelActions.ModelGetAction, A2 extends ModelActions.ModelListAction, A3 extends ModelActions.ModelCreateAction<T>, A4 extends ModelActions.ModelUpdateAction<T>, A5 extends ModelActions.ModelPatchAction<T>, A6 extends ModelActions.ModelDeleteAction<T>, A7 extends ModelActions.ModelDeleteAllAction<T>, MS extends ModelService<T, S, A1, A2, A3, A4, A5, A6, A7>> extends BaseAdminListComponent<T, S, A1, A2, A3, A4, A5, A6, A7, MS> implements OnDestroy, OnInit {
+import { AdminListCellDirective } from './list-cell';
+export declare class AdminListComponent<T extends Model, S extends fromModel.State<T>, A1 extends ModelActions.ModelGetAction, A2 extends ModelActions.ModelListAction, A3 extends ModelActions.ModelCreateAction<T>, A4 extends ModelActions.ModelUpdateAction<T>, A5 extends ModelActions.ModelPatchAction<T>, A6 extends ModelActions.ModelDeleteAction<T>, A7 extends ModelActions.ModelDeleteAllAction<T>, MS extends ModelService<T, S, A1, A2, A3, A4, A5, A6, A7>> extends BaseAdminListComponent<T, S, A1, A2, A3, A4, A5, A6, A7, MS> implements AfterContentInit, OnDestroy, OnInit {
     dataSource: ModelDataSource<T, S, A1, A2, A3, A4, A5, A6, A7, MS>;
     paginatorCmp: MatPaginator;
     sortCmp: MatSort;
     actionSel: MatSelect;
+    cellTemplates: QueryList<AdminListCellDirective>;
     readonly selection: SelectionModel<T>;
+    private _cellTemplatesMap;
+    readonly cellTemplatesMap: {
+        [column: string]: TemplateRef<any>;
+    };
     constructor(cdr: ChangeDetectorRef, aui: AdminUserInteractionsService);
+    ngAfterContentInit(): void;
     ngOnInit(): void;
     getSelection(): T[];
     getItems(): T[];

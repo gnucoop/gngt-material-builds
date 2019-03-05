@@ -18,27 +18,9 @@
  * along with Gnucoop Angular Toolkit (gngt).  If not, see http://www.gnu.org/licenses/.
  *
  */
-import { Version } from '@angular/core';
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-/**
- * Current version of Gngt.
- * @type {?}
- */
-var VERSION = new Version('7.0.0-alpha.5-a3fd93b');
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-export { VERSION };
-//# sourceMappingURL=material.es5.js.map
+import { TemplateRef } from '@angular/core';
+export declare class AdminListCellDirective {
+    readonly templateRef: TemplateRef<any>;
+    column: string;
+    constructor(templateRef: TemplateRef<any>);
+}
