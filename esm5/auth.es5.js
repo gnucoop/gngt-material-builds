@@ -205,5 +205,5 @@ var AuthModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AuthModule, LoginComponent, AuthUserInteractionsService as ɵb, LogoutConfirmDialogComponent as ɵa };
+export { AuthModule, LoginComponent, LogoutConfirmDialogComponent as ɵa, AuthUserInteractionsService as ɵb };
 //# sourceMappingURL=auth.es5.js.map

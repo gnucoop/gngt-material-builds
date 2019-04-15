@@ -216,8 +216,8 @@
 
     exports.AuthModule = AuthModule;
     exports.LoginComponent = LoginComponent;
-    exports.ɵb = AuthUserInteractionsService;
     exports.ɵa = LogoutConfirmDialogComponent;
+    exports.ɵb = AuthUserInteractionsService;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 
