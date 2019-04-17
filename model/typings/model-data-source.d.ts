@@ -23,7 +23,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { Model, ModelActions, ModelListParams, ModelService, reducers as fromModel } from '@gngt/core/model';
-export declare class ModelDataSource<T extends Model, S extends fromModel.State<T>, A1 extends ModelActions.ModelGetAction, A2 extends ModelActions.ModelListAction, A3 extends ModelActions.ModelCreateAction<T>, A4 extends ModelActions.ModelUpdateAction<T>, A5 extends ModelActions.ModelPatchAction<T>, A6 extends ModelActions.ModelDeleteAction<T>, A7 extends ModelActions.ModelDeleteAllAction<T>, MS extends ModelService<T, S, A1, A2, A3, A4, A5, A6, A7>> extends DataSource<T> {
+export declare class ModelDataSource<T extends Model, S extends fromModel.State<T>, A1 extends ModelActions.ModelGetAction, A2 extends ModelActions.ModelListAction, A3 extends ModelActions.ModelCreateAction<T>, A4 extends ModelActions.ModelUpdateAction<T>, A5 extends ModelActions.ModelPatchAction<T>, A6 extends ModelActions.ModelDeleteAction<T>, A7 extends ModelActions.ModelDeleteAllAction<T>, A8 extends ModelActions.ModelQueryAction, MS extends ModelService<T, S, A1, A2, A3, A4, A5, A6, A7, A8>> extends DataSource<T> {
     private _service;
     private _baseParams;
     constructor(_service: MS, _baseParams?: ModelListParams);
