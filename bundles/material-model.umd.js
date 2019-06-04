@@ -69,10 +69,10 @@
      * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
      */
     /**
-     * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8, MS
+     * @template T, S, A, MS
      */
     var   /**
-     * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8, MS
+     * @template T, S, A, MS
      */
     ModelDataSource = /** @class */ (function (_super) {
         __extends(ModelDataSource, _super);
@@ -83,13 +83,14 @@
             _this._baseParams = _baseParams;
             _this._sort = null;
             _this._filter = new rxjs.BehaviorSubject('');
+            _this._filters = new rxjs.BehaviorSubject({});
             _this._paginator = null;
-            _this._data = [];
-            _this._dataSubscription = rxjs.Subscription.EMPTY;
+            _this._data = new rxjs.BehaviorSubject([]);
             _this._sortParams = new rxjs.BehaviorSubject(null);
             _this._sortSubscription = rxjs.Subscription.EMPTY;
             _this._paginatorParams = new rxjs.BehaviorSubject(null);
             _this._paginatorSubscription = rxjs.Subscription.EMPTY;
+            _this._dataSubscription = rxjs.Subscription.EMPTY;
             _this._refreshEvent = new core.EventEmitter();
             return _this;
         }
@@ -124,6 +125,23 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ModelDataSource.prototype, "filters", {
+            get: /**
+             * @return {?}
+             */
+            function () {
+                return this._filters.value;
+            },
+            set: /**
+             * @param {?} filters
+             * @return {?}
+             */
+            function (filters) {
+                this._filters.next(filters);
+            },
+            enumerable: true,
+            configurable: true
+        });
         Object.defineProperty(ModelDataSource.prototype, "paginator", {
             get: /**
              * @return {?}
@@ -144,7 +162,7 @@
             get: /**
              * @return {?}
              */
-            function () { return this._data; },
+            function () { return this._data.value; },
             enumerable: true,
             configurable: true
         });
@@ -157,26 +175,8 @@
          * @return {?}
          */
         function (_) {
-            var _this = this;
             this._initData();
-            return this._service.getListObjects().pipe(operators.tap((/**
-             * @param {?} o
-             * @return {?}
-             */
-            function (o) {
-                /** @type {?} */
-                var paginator = _this.paginator;
-                if (paginator != null) {
-                    paginator.length = o && o.count ? o.count : 0;
-                }
-            })), operators.map((/**
-             * @param {?} o
-             * @return {?}
-             */
-            function (o) {
-                _this._data = o && o.results ? o.results : [];
-                return _this._data;
-            })));
+            return this._data.asObservable();
         };
         /**
          * @param {?} _
@@ -190,6 +190,9 @@
             this._dataSubscription.unsubscribe();
             this._sortSubscription.unsubscribe();
             this._paginatorSubscription.unsubscribe();
+            this._sortParams.complete();
+            this._paginatorParams.complete();
+            this._filters.complete();
         };
         /**
          * @return {?}
@@ -210,8 +213,7 @@
          */
         function () {
             var _this = this;
-            this._dataSubscription.unsubscribe();
-            this._dataSubscription = rxjs.combineLatest(this._paginatorParams, this._sortParams, this._filter, this._refreshEvent).pipe(operators.startWith([null, null, null, null]), operators.debounceTime(10)).subscribe((/**
+            this._dataSubscription = rxjs.combineLatest(this._paginatorParams, this._sortParams, this._filter, this._filters, this._refreshEvent).pipe(operators.startWith([null, null, null, null]), operators.debounceTime(10), operators.switchMap((/**
              * @param {?} p
              * @return {?}
              */
@@ -222,7 +224,9 @@
                 /** @type {?} */
                 var sort = p[1];
                 /** @type {?} */
-                var params = __assign({}, _this._baseParams);
+                var filters = p[3];
+                /** @type {?} */
+                var params = __assign({}, _this._baseParams, { selector: __assign({}, filters) });
                 if (pagination != null) {
                     /** @type {?} */
                     var pag = (/** @type {?} */ (pagination));
@@ -236,7 +240,23 @@
                     var direction = so.direction === '' ? 'asc' : so.direction;
                     params.sort = (_a = {}, _a[so.active] = direction, _a);
                 }
-                _this._service.list(params);
+                return _this._service.query(params);
+            })), operators.tap((/**
+             * @param {?} o
+             * @return {?}
+             */
+            function (o) {
+                /** @type {?} */
+                var paginator = _this.paginator;
+                if (paginator != null) {
+                    paginator.length = o && o.count ? o.count : 0;
+                }
+            }))).subscribe((/**
+             * @param {?} o
+             * @return {?}
+             */
+            function (o) {
+                _this._data.next(o && o.results ? o.results : []);
             }));
             this._refreshEvent.next();
         };

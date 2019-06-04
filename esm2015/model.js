@@ -21,14 +21,14 @@
 import { EventEmitter } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { tap, map, startWith, debounceTime } from 'rxjs/operators';
+import { startWith, debounceTime, switchMap, tap } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8, MS
+ * @template T, S, A, MS
  */
 class ModelDataSource extends DataSource {
     /**
@@ -41,13 +41,14 @@ class ModelDataSource extends DataSource {
         this._baseParams = _baseParams;
         this._sort = null;
         this._filter = new BehaviorSubject('');
+        this._filters = new BehaviorSubject({});
         this._paginator = null;
-        this._data = [];
-        this._dataSubscription = Subscription.EMPTY;
+        this._data = new BehaviorSubject([]);
         this._sortParams = new BehaviorSubject(null);
         this._sortSubscription = Subscription.EMPTY;
         this._paginatorParams = new BehaviorSubject(null);
         this._paginatorSubscription = Subscription.EMPTY;
+        this._dataSubscription = Subscription.EMPTY;
         this._refreshEvent = new EventEmitter();
     }
     /**
@@ -76,6 +77,19 @@ class ModelDataSource extends DataSource {
     /**
      * @return {?}
      */
+    get filters() {
+        return this._filters.value;
+    }
+    /**
+     * @param {?} filters
+     * @return {?}
+     */
+    set filters(filters) {
+        this._filters.next(filters);
+    }
+    /**
+     * @return {?}
+     */
     get paginator() { return this._paginator; }
     /**
      * @param {?} paginator
@@ -88,31 +102,14 @@ class ModelDataSource extends DataSource {
     /**
      * @return {?}
      */
-    get data() { return this._data; }
+    get data() { return this._data.value; }
     /**
      * @param {?} _
      * @return {?}
      */
     connect(_) {
         this._initData();
-        return this._service.getListObjects().pipe(tap((/**
-         * @param {?} o
-         * @return {?}
-         */
-        o => {
-            /** @type {?} */
-            const paginator = this.paginator;
-            if (paginator != null) {
-                paginator.length = o && o.count ? o.count : 0;
-            }
-        })), map((/**
-         * @param {?} o
-         * @return {?}
-         */
-        o => {
-            this._data = o && o.results ? o.results : [];
-            return this._data;
-        })));
+        return this._data.asObservable();
     }
     /**
      * @param {?} _
@@ -122,6 +119,9 @@ class ModelDataSource extends DataSource {
         this._dataSubscription.unsubscribe();
         this._sortSubscription.unsubscribe();
         this._paginatorSubscription.unsubscribe();
+        this._sortParams.complete();
+        this._paginatorParams.complete();
+        this._filters.complete();
     }
     /**
      * @return {?}
@@ -134,8 +134,7 @@ class ModelDataSource extends DataSource {
      * @return {?}
      */
     _initData() {
-        this._dataSubscription.unsubscribe();
-        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._refreshEvent).pipe(startWith([null, null, null, null]), debounceTime(10)).subscribe((/**
+        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._filters, this._refreshEvent).pipe(startWith([null, null, null, null]), debounceTime(10), switchMap((/**
          * @param {?} p
          * @return {?}
          */
@@ -145,7 +144,9 @@ class ModelDataSource extends DataSource {
             /** @type {?} */
             const sort = p[1];
             /** @type {?} */
-            const params = Object.assign({}, this._baseParams);
+            const filters = p[3];
+            /** @type {?} */
+            const params = Object.assign({}, this._baseParams, { selector: Object.assign({}, filters) });
             if (pagination != null) {
                 /** @type {?} */
                 const pag = (/** @type {?} */ (pagination));
@@ -159,7 +160,23 @@ class ModelDataSource extends DataSource {
                 const direction = so.direction === '' ? 'asc' : so.direction;
                 params.sort = { [so.active]: direction };
             }
-            this._service.list(params);
+            return this._service.query(params);
+        })), tap((/**
+         * @param {?} o
+         * @return {?}
+         */
+        o => {
+            /** @type {?} */
+            const paginator = this.paginator;
+            if (paginator != null) {
+                paginator.length = o && o.count ? o.count : 0;
+            }
+        }))).subscribe((/**
+         * @param {?} o
+         * @return {?}
+         */
+        o => {
+            this._data.next(o && o.results ? o.results : []);
         }));
         this._refreshEvent.next();
     }
@@ -184,6 +201,11 @@ class ModelDataSource extends DataSource {
             Subscription.EMPTY;
     }
 }
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
 
 /**
  * @fileoverview added by tsickle

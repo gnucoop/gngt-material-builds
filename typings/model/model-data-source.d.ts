@@ -23,7 +23,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Observable } from 'rxjs';
 import { Model, ModelActions, ModelListParams, ModelService, reducers as fromModel } from '@gngt/core/model';
-export declare class ModelDataSource<T extends Model, S extends fromModel.State<T>, A1 extends ModelActions.ModelGetAction, A2 extends ModelActions.ModelListAction, A3 extends ModelActions.ModelCreateAction<T>, A4 extends ModelActions.ModelUpdateAction<T>, A5 extends ModelActions.ModelPatchAction<T>, A6 extends ModelActions.ModelDeleteAction<T>, A7 extends ModelActions.ModelDeleteAllAction<T>, A8 extends ModelActions.ModelQueryAction, MS extends ModelService<T, S, A1, A2, A3, A4, A5, A6, A7, A8>> extends DataSource<T> {
+import { ModelDataSourceFilters } from './model-data-source-filters';
+export declare class ModelDataSource<T extends Model, S extends fromModel.State<T>, A extends ModelActions.ModelActionTypes, MS extends ModelService<T, S, A>> extends DataSource<T> {
     private _service;
     private _baseParams;
     constructor(_service: MS, _baseParams?: ModelListParams);
@@ -31,15 +32,17 @@ export declare class ModelDataSource<T extends Model, S extends fromModel.State<
     private _sort;
     filter: string;
     private _filter;
+    filters: ModelDataSourceFilters;
+    private _filters;
     paginator: MatPaginator | null;
     private _paginator;
     private _data;
     readonly data: T[];
-    private _dataSubscription;
     private _sortParams;
     private _sortSubscription;
     private _paginatorParams;
     private _paginatorSubscription;
+    private _dataSubscription;
     private _refreshEvent;
     connect(_: CollectionViewer): Observable<T[]>;
     disconnect(_: CollectionViewer): void;

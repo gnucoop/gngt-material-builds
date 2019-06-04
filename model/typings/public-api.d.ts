@@ -19,3 +19,4 @@
  *
  */
 export * from './model-data-source';
+export * from './model-data-source-filters';

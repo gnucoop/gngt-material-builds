@@ -90,7 +90,7 @@ AdminUserInteractionsService.ctorParameters = () => [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8
+ * @template T, S, A
  */
 class AdminEditComponent extends AdminEditComponent$1 {
     /**
@@ -157,7 +157,7 @@ AdminListCellDirective.propDecorators = {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8, MS
+ * @template T, S, A, MS
  */
 class AdminListComponent extends AdminListComponent$1 {
     /**
@@ -318,5 +318,5 @@ AdminModule.decorators = [
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminDeleteConfirmDialogComponent as ɵa, AdminListCellDirective as ɵb };
+export { AdminDeleteConfirmDialogComponent, AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminListCellDirective as ɵa };
 //# sourceMappingURL=admin.js.map

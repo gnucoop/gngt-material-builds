@@ -97,7 +97,7 @@ var AdminUserInteractionsService = /** @class */ (function (_super) {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8
+ * @template T, S, A
  */
 var AdminEditComponent = /** @class */ (function (_super) {
     __extends(AdminEditComponent, _super);
@@ -159,7 +159,7 @@ var AdminListCellDirective = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 /**
- * @template T, S, A1, A2, A3, A4, A5, A6, A7, A8, MS
+ * @template T, S, A, MS
  */
 var AdminListComponent = /** @class */ (function (_super) {
     __extends(AdminListComponent, _super);
@@ -348,5 +348,5 @@ var AdminModule = /** @class */ (function () {
  * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
  */
 
-export { AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminDeleteConfirmDialogComponent as ɵa, AdminListCellDirective as ɵb };
+export { AdminDeleteConfirmDialogComponent, AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminListCellDirective as ɵa };
 //# sourceMappingURL=admin.es5.js.map

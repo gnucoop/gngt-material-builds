@@ -18,25 +18,6 @@
  * along with Gnucoop Angular Toolkit (gngt).  If not, see http://www.gnu.org/licenses/.
  *
  */
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
-	typeof define === 'function' && define.amd ? define('@gngt/material', ['exports', '@angular/core'], factory) :
-	(global = global || self, factory((global.dewco = global.dewco || {}, global.dewco.material = {}), global.ng.core));
-}(this, function (exports, core) { 'use strict';
-
-	/**
-	 * @fileoverview added by tsickle
-	 * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
-	 */
-	/**
-	 * Current version of Gngt.
-	 * @type {?}
-	 */
-	var VERSION = new core.Version('7.0.7-90d4109');
-
-	exports.VERSION = VERSION;
-
-	Object.defineProperty(exports, '__esModule', { value: true });
-
-}));
-//# sourceMappingURL=material.umd.js.map
+export declare type ModelDataSourceFilters = {
+    [key: string]: any;
+};
