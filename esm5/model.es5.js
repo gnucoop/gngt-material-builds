@@ -21,8 +21,8 @@
 import { __extends, __assign } from 'tslib';
 import { EventEmitter } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { startWith, debounceTime, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Subscription, combineLatest, of } from 'rxjs';
+import { startWith, debounceTime, switchMap, tap, map } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
@@ -126,6 +126,17 @@ ModelDataSource = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(ModelDataSource.prototype, "dataModifier", {
+        set: /**
+         * @param {?} dataModifier
+         * @return {?}
+         */
+        function (dataModifier) {
+            this._dataModifier = dataModifier;
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * @param {?} _
      * @return {?}
@@ -211,12 +222,25 @@ ModelDataSource = /** @class */ (function (_super) {
             if (paginator != null) {
                 paginator.length = o && o.count ? o.count : 0;
             }
-        }))).subscribe((/**
+        })), map((/**
          * @param {?} o
          * @return {?}
          */
-        function (o) {
-            _this._data.next(o && o.results ? o.results : []);
+        function (o) { return o && o.results ? o.results : []; })), switchMap((/**
+         * @param {?} data
+         * @return {?}
+         */
+        function (data) {
+            if (_this._dataModifier != null) {
+                return _this._dataModifier(data);
+            }
+            return of(data);
+        }))).subscribe((/**
+         * @param {?} data
+         * @return {?}
+         */
+        function (data) {
+            _this._data.next(data);
         }));
         this._refreshEvent.next();
     };

@@ -38,6 +38,8 @@ export declare class ModelDataSource<T extends Model, S extends fromModel.State<
     private _paginator;
     private _data;
     readonly data: T[];
+    private _dataModifier;
+    dataModifier: (data: T[]) => Observable<T[]>;
     private _sortParams;
     private _sortSubscription;
     private _paginatorParams;

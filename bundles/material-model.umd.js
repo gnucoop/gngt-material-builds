@@ -166,6 +166,17 @@
             enumerable: true,
             configurable: true
         });
+        Object.defineProperty(ModelDataSource.prototype, "dataModifier", {
+            set: /**
+             * @param {?} dataModifier
+             * @return {?}
+             */
+            function (dataModifier) {
+                this._dataModifier = dataModifier;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * @param {?} _
          * @return {?}
@@ -251,12 +262,25 @@
                 if (paginator != null) {
                     paginator.length = o && o.count ? o.count : 0;
                 }
-            }))).subscribe((/**
+            })), operators.map((/**
              * @param {?} o
              * @return {?}
              */
-            function (o) {
-                _this._data.next(o && o.results ? o.results : []);
+            function (o) { return o && o.results ? o.results : []; })), operators.switchMap((/**
+             * @param {?} data
+             * @return {?}
+             */
+            function (data) {
+                if (_this._dataModifier != null) {
+                    return _this._dataModifier(data);
+                }
+                return rxjs.of(data);
+            }))).subscribe((/**
+             * @param {?} data
+             * @return {?}
+             */
+            function (data) {
+                _this._data.next(data);
             }));
             this._refreshEvent.next();
         };

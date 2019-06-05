@@ -20,8 +20,8 @@
  */
 import { EventEmitter } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { BehaviorSubject, Subscription, combineLatest } from 'rxjs';
-import { startWith, debounceTime, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Subscription, combineLatest, of } from 'rxjs';
+import { startWith, debounceTime, switchMap, tap, map } from 'rxjs/operators';
 
 /**
  * @fileoverview added by tsickle
@@ -104,6 +104,13 @@ class ModelDataSource extends DataSource {
      */
     get data() { return this._data.value; }
     /**
+     * @param {?} dataModifier
+     * @return {?}
+     */
+    set dataModifier(dataModifier) {
+        this._dataModifier = dataModifier;
+    }
+    /**
      * @param {?} _
      * @return {?}
      */
@@ -171,12 +178,25 @@ class ModelDataSource extends DataSource {
             if (paginator != null) {
                 paginator.length = o && o.count ? o.count : 0;
             }
-        }))).subscribe((/**
+        })), map((/**
          * @param {?} o
          * @return {?}
          */
-        o => {
-            this._data.next(o && o.results ? o.results : []);
+        o => o && o.results ? o.results : [])), switchMap((/**
+         * @param {?} data
+         * @return {?}
+         */
+        data => {
+            if (this._dataModifier != null) {
+                return this._dataModifier(data);
+            }
+            return of(data);
+        }))).subscribe((/**
+         * @param {?} data
+         * @return {?}
+         */
+        data => {
+            this._data.next(data);
         }));
         this._refreshEvent.next();
     }
