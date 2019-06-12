@@ -29,6 +29,7 @@ import { ModelDataSource } from '@gngt/material/model';
 import { AdminUserInteractionsService } from './admin-user-interactions';
 import { AdminListCellDirective } from './list-cell';
 export declare class AdminListComponent<T extends Model, S extends fromModel.State<T>, A extends ModelActions.ModelActionTypes, MS extends ModelService<T, S, A>> extends BaseAdminListComponent<T, S, A, MS> implements AfterContentInit, OnDestroy, OnInit {
+    private _dataSource;
     dataSource: ModelDataSource<T, S, A, MS>;
     paginatorCmp: MatPaginator;
     sortCmp: MatSort;
@@ -47,4 +48,5 @@ export declare class AdminListComponent<T extends Model, S extends fromModel.Sta
     clearSelection(): void;
     selectAll(): void;
     refreshList(): void;
+    private _fillDataSource;
 }

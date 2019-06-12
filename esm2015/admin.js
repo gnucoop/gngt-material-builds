@@ -104,7 +104,7 @@ class AdminEditComponent extends AdminEditComponent$1 {
 }
 AdminEditComponent.decorators = [
     { type: Component, args: [{selector: 'gngt-admin-edit',
-                template: "<mat-card *ngIf=\"form|async as editForm\"><h2 *ngIf=\"title\" mat-card-header>{{ title }} <span *ngIf=\"editForm.value['id']\">#{{ editForm.value['id'] }}</span></h2><mat-card-content><form [formGroup]=\"editForm\" [gngtFormDisabled]=\"loading|async\"><ng-container *ngFor=\"let field of fields\"><div *ngIf=\"!field.hidden\"><ng-container [ngSwitch]=\"field.type\"><mat-form-field *ngSwitchCase=\"'input'\"><input matInput [formControlName]=\"field.name\" [type]=\"field.subtype || 'text'\" [placeholder]=\"field.label | translate\" [readonly]=\"field.readonly\"></mat-form-field><mat-form-field *ngSwitchCase=\"'textarea'\"><textarea matInput [formControlName]=\"field.name\" [placeholder]=\"field.label | translate\"></textarea></mat-form-field><div *ngSwitchCase=\"'checkbox'\"><mat-checkbox [formControlName]=\"field.name\">{{ field.label | translate }}</mat-checkbox></div><mat-radio-group *ngSwitchCase=\"'radio'\" [formControlName]=\"field.name\"><label class=\"mat-form-field-label\">{{ field.label | translate }}</label><mat-radio-button *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-radio-button></mat-radio-group><mat-form-field *ngSwitchCase=\"'select'\"><mat-select [placeholder]=\"field.label | translate\" [formControlName]=\"field.name\"><mat-option *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-option></mat-select></mat-form-field><mat-form-field *ngSwitchCase=\"'multipleselect'\"><mat-select [placeholder]=\"field.label | translate\" [formControlName]=\"field.name\" multiple=\"multiple\"><mat-option *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-option></mat-select></mat-form-field><mat-form-field *ngSwitchCase=\"'autocomplete'\"><input matInput [formControlName]=\"field.name\" type=\"text\" [placeholder]=\"field.label | translate\" [readonly]=\"field.readonly\" [matAutocomplete]=\"auto\"><mat-autocomplete #auto=\"matAutocomplete\"><mat-option *ngFor=\"let option of field.choices|async\" [value]=\"option.value\">{{ option.label | translate }}</mat-option></mat-autocomplete></mat-form-field></ng-container></div></ng-container></form></mat-card-content><mat-card-actions><button (click)=\"save()\" [disabled]=\"!editForm.valid\" mat-raised-button color=\"primary\">{{ saveLabel | translate }}</button> <button (click)=\"goBack()\" mat-raised-button color=\"warn\">{{ cancelLabel | translate }}</button></mat-card-actions><mat-card-footer><mat-progress-bar *ngIf=\"loading|async\" mode=\"indeterminate\"></mat-progress-bar></mat-card-footer></mat-card>",
+                template: "<mat-card *ngIf=\"form|async as editForm\"><h2 *ngIf=\"title\" mat-card-header>{{ title }} <span *ngIf=\"editForm.value['id']\">#{{ editForm.value['id'] }}</span></h2><mat-card-content><form [formGroup]=\"editForm\" [gngtFormDisabled]=\"loading|async\"><ng-container *ngFor=\"let field of fields\"><div *ngIf=\"!field.hidden\"><ng-container [ngSwitch]=\"field.type\"><mat-form-field *ngSwitchCase=\"'input'\"><input matInput [formControlName]=\"field.name\" [type]=\"field.subtype || 'text'\" [placeholder]=\"field.label | translate\" [readonly]=\"field.readonly\"></mat-form-field><mat-form-field *ngSwitchCase=\"'textarea'\"><textarea matInput [formControlName]=\"field.name\" [placeholder]=\"field.label | translate\"></textarea></mat-form-field><div *ngSwitchCase=\"'checkbox'\"><mat-checkbox [formControlName]=\"field.name\">{{ field.label | translate }}</mat-checkbox></div><mat-radio-group *ngSwitchCase=\"'radio'\" [formControlName]=\"field.name\"><label class=\"mat-form-field-label\">{{ field.label | translate }}</label><mat-radio-button *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-radio-button></mat-radio-group><mat-form-field *ngSwitchCase=\"'select'\"><mat-select [placeholder]=\"field.label | translate\" [formControlName]=\"field.name\"><mat-option *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-option></mat-select></mat-form-field><mat-form-field *ngSwitchCase=\"'multipleselect'\"><mat-select [placeholder]=\"field.label | translate\" [formControlName]=\"field.name\" multiple=\"multiple\"><mat-option *ngFor=\"let choice of field.choices|async\" [value]=\"choice.value\">{{ choice.label | translate }}</mat-option></mat-select></mat-form-field><mat-form-field *ngSwitchCase=\"'autocomplete'\"><input matInput [formControlName]=\"field.name\" type=\"text\" [placeholder]=\"field.label | translate\" [readonly]=\"field.readonly\" [matAutocomplete]=\"auto\"><mat-autocomplete #auto=\"matAutocomplete\"><mat-option *ngFor=\"let option of field.choices|async\" [value]=\"option.value\">{{ option.label | translate }}</mat-option></mat-autocomplete></mat-form-field></ng-container></div></ng-container></form></mat-card-content><mat-card-actions><button *ngIf=\"!hideSaveButton\" (click)=\"save()\" [disabled]=\"!editForm.valid || (canSave === false)\" mat-raised-button color=\"primary\">{{ saveLabel | translate }}</button> <button (click)=\"goBack()\" mat-raised-button color=\"warn\">{{ cancelLabel | translate }}</button></mat-card-actions><mat-card-footer><mat-progress-bar *ngIf=\"loading|async\" mode=\"indeterminate\"></mat-progress-bar></mat-card-footer></mat-card>",
                 styles: ["gngt-admin-edit{display:block}gngt-admin-edit>.mat-card>[mat-card-header]{margin:-16px -16px 32px;padding:16px;box-shadow:0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)}gngt-admin-edit>.mat-card>.mat-card-actions{text-align:right}gngt-admin-edit>.mat-card mat-radio-group{display:block;position:relative;padding:.4375em 0;border-top:.84375em solid transparent}gngt-admin-edit>.mat-card mat-radio-group>label{display:block;top:-.84375em;transform:scale(.75) perspective(100px) translateZ(.001px)}gngt-admin-edit>.mat-card mat-radio-group mat-radio-button{margin-right:1em}"],
                 changeDetection: ChangeDetectionStrategy.OnPush,
                 encapsulation: ViewEncapsulation.None,
@@ -117,7 +117,10 @@ AdminEditComponent.decorators = [
                     'fields',
                     'processFormData',
                     'processObject',
-                    'id'
+                    'id',
+                    'readonly',
+                    'hideSaveButton',
+                    'canSave',
                 ],
                 outputs: ['valueChanges$']
             },] },
@@ -172,6 +175,20 @@ class AdminListComponent extends AdminListComponent$1 {
     /**
      * @return {?}
      */
+    get dataSource() { return this._dataSource; }
+    /**
+     * @param {?} dataSource
+     * @return {?}
+     */
+    set dataSource(dataSource) {
+        if (dataSource !== this.dataSource) {
+            this._dataSource = dataSource;
+            this._fillDataSource();
+        }
+    }
+    /**
+     * @return {?}
+     */
     get cellTemplatesMap() { return this._cellTemplatesMap; }
     /**
      * @return {?}
@@ -191,31 +208,36 @@ class AdminListComponent extends AdminListComponent$1 {
      * @return {?}
      */
     ngOnInit() {
-        this.dataSource.paginator = this.paginatorCmp;
-        this.dataSource.sort = this.sortCmp;
+        this._fillDataSource();
     }
     /**
      * @return {?}
      */
     getSelection() {
-        return this.selection.selected;
+        return this.selection ? this.selection.selected : [];
     }
     /**
      * @return {?}
      */
     getItems() {
-        return this.dataSource.data;
+        return this.dataSource ? this.dataSource.data : [];
     }
     /**
      * @return {?}
      */
     clearSelection() {
+        if (this.selection == null) {
+            return;
+        }
         this.selection.clear();
     }
     /**
      * @return {?}
      */
     selectAll() {
+        if (this.dataSource == null) {
+            return;
+        }
         this.dataSource.data.forEach((/**
          * @param {?} row
          * @return {?}
@@ -226,7 +248,21 @@ class AdminListComponent extends AdminListComponent$1 {
      * @return {?}
      */
     refreshList() {
+        if (this.dataSource == null) {
+            return;
+        }
         this.dataSource.refresh();
+    }
+    /**
+     * @private
+     * @return {?}
+     */
+    _fillDataSource() {
+        if (this.dataSource == null) {
+            return;
+        }
+        this.dataSource.paginator = this.paginatorCmp;
+        this.dataSource.sort = this.sortCmp;
     }
 }
 AdminListComponent.decorators = [
