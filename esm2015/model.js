@@ -41,6 +41,7 @@ class ModelDataSource extends DataSource {
         this._baseParams = _baseParams;
         this._sort = null;
         this._filter = new BehaviorSubject('');
+        this._freeTextSearchFields = new BehaviorSubject([]);
         this._filters = new BehaviorSubject({});
         this._paginator = null;
         this._data = new BehaviorSubject([]);
@@ -73,6 +74,17 @@ class ModelDataSource extends DataSource {
      */
     set filter(filter) {
         this._filter.next(filter);
+    }
+    /**
+     * @return {?}
+     */
+    get freeTextSearchFields() { return this._freeTextSearchFields.value; }
+    /**
+     * @param {?} freeTextSearchFields
+     * @return {?}
+     */
+    set freeTextSearchFields(freeTextSearchFields) {
+        this._freeTextSearchFields.next([...freeTextSearchFields]);
     }
     /**
      * @return {?}
@@ -141,7 +153,7 @@ class ModelDataSource extends DataSource {
      * @return {?}
      */
     _initData() {
-        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._filters, this._refreshEvent).pipe(startWith([null, null, null, null]), debounceTime(10), switchMap((/**
+        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._freeTextSearchFields, this._filters, this._refreshEvent).pipe(startWith([null, null, null, null, null]), debounceTime(10), switchMap((/**
          * @param {?} p
          * @return {?}
          */
@@ -151,9 +163,30 @@ class ModelDataSource extends DataSource {
             /** @type {?} */
             const sort = p[1];
             /** @type {?} */
-            const filters = p[3];
+            const filter = p[2];
             /** @type {?} */
-            const params = Object.assign({}, this._baseParams, { selector: Object.assign({}, filters) });
+            const freeTextSearchFields = p[3];
+            /** @type {?} */
+            const filters = p[4];
+            /** @type {?} */
+            const freeTextSel = {};
+            /** @type {?} */
+            const filterWord = (filter || '').trim();
+            if (filter != null && freeTextSearchFields != null
+                && filterWord.length > 0 && freeTextSearchFields.length > 0) {
+                freeTextSel['$or'] = freeTextSearchFields.map((/**
+                 * @param {?} key
+                 * @return {?}
+                 */
+                key => {
+                    /** @type {?} */
+                    const keySel = {};
+                    keySel[key] = { '$regex': filterWord };
+                    return keySel;
+                }));
+            }
+            /** @type {?} */
+            const params = Object.assign({}, this._baseParams, { selector: Object.assign({}, filters, freeTextSel) });
             if (pagination != null) {
                 /** @type {?} */
                 const pag = (/** @type {?} */ (pagination));
@@ -221,21 +254,6 @@ class ModelDataSource extends DataSource {
             Subscription.EMPTY;
     }
 }
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { ModelDataSource };
 //# sourceMappingURL=model.js.map

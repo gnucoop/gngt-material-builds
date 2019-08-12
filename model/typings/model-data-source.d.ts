@@ -32,6 +32,8 @@ export declare class ModelDataSource<T extends Model, S extends fromModel.State<
     private _sort;
     filter: string;
     private _filter;
+    private _freeTextSearchFields;
+    freeTextSearchFields: string[];
     filters: ModelDataSourceFilters;
     private _filters;
     paginator: MatPaginator | null;

@@ -64,17 +64,17 @@ AdminDeleteConfirmDialogComponent.decorators = [
  */
 class AdminUserInteractionsService extends AdminUserInteractionsService$1 {
     /**
-     * @param {?} dialog
+     * @param {?} _dialog
      */
-    constructor(dialog) {
+    constructor(_dialog) {
         super();
-        this.dialog = dialog;
+        this._dialog = _dialog;
     }
     /**
      * @return {?}
      */
     askDeleteConfirm() {
-        return this.dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
+        return this._dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
     }
 }
 AdminUserInteractionsService.decorators = [
@@ -288,9 +288,9 @@ AdminListComponent.ctorParameters = () => [
 ];
 AdminListComponent.propDecorators = {
     dataSource: [{ type: Input }],
-    paginatorCmp: [{ type: ViewChild, args: [MatPaginator,] }],
-    sortCmp: [{ type: ViewChild, args: [MatSort,] }],
-    actionSel: [{ type: ViewChild, args: ['actionSel', { read: MatSelect },] }],
+    paginatorCmp: [{ type: ViewChild, args: [MatPaginator, { static: true },] }],
+    sortCmp: [{ type: ViewChild, args: [MatSort, { static: true },] }],
+    actionSel: [{ type: ViewChild, args: ['actionSel', { static: true, read: MatSelect },] }],
     cellTemplates: [{ type: ContentChildren, args: [AdminListCellDirective,] }]
 };
 
@@ -343,16 +343,6 @@ AdminModule.decorators = [
                 ]
             },] },
 ];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { AdminDeleteConfirmDialogComponent, AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminListCellDirective as ɵa };
 //# sourceMappingURL=admin.js.map

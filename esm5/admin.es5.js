@@ -68,9 +68,9 @@ var AdminDeleteConfirmDialogComponent = /** @class */ (function () {
  */
 var AdminUserInteractionsService = /** @class */ (function (_super) {
     __extends(AdminUserInteractionsService, _super);
-    function AdminUserInteractionsService(dialog) {
+    function AdminUserInteractionsService(_dialog) {
         var _this = _super.call(this) || this;
-        _this.dialog = dialog;
+        _this._dialog = _dialog;
         return _this;
     }
     /**
@@ -80,7 +80,7 @@ var AdminUserInteractionsService = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        return this.dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
+        return this._dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
     };
     AdminUserInteractionsService.decorators = [
         { type: Injectable },
@@ -321,9 +321,9 @@ var AdminListComponent = /** @class */ (function (_super) {
     ]; };
     AdminListComponent.propDecorators = {
         dataSource: [{ type: Input }],
-        paginatorCmp: [{ type: ViewChild, args: [MatPaginator,] }],
-        sortCmp: [{ type: ViewChild, args: [MatSort,] }],
-        actionSel: [{ type: ViewChild, args: ['actionSel', { read: MatSelect },] }],
+        paginatorCmp: [{ type: ViewChild, args: [MatPaginator, { static: true },] }],
+        sortCmp: [{ type: ViewChild, args: [MatSort, { static: true },] }],
+        actionSel: [{ type: ViewChild, args: ['actionSel', { static: true, read: MatSelect },] }],
         cellTemplates: [{ type: ContentChildren, args: [AdminListCellDirective,] }]
     };
     return AdminListComponent;
@@ -381,16 +381,6 @@ var AdminModule = /** @class */ (function () {
     ];
     return AdminModule;
 }());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { AdminDeleteConfirmDialogComponent, AdminEditComponent, AdminListComponent, AdminModule, AdminUserInteractionsService, AdminListCellDirective as ɵa };
 //# sourceMappingURL=admin.es5.js.map

@@ -62,10 +62,10 @@ var LogoutConfirmDialogComponent = /** @class */ (function () {
  */
 var AuthUserInteractionsService = /** @class */ (function (_super) {
     __extends(AuthUserInteractionsService, _super);
-    function AuthUserInteractionsService(dialog, snackBar) {
+    function AuthUserInteractionsService(_dialog, _snackBar) {
         var _this = _super.call(this) || this;
-        _this.dialog = dialog;
-        _this.snackBar = snackBar;
+        _this._dialog = _dialog;
+        _this._snackBar = _snackBar;
         return _this;
     }
     /**
@@ -75,7 +75,7 @@ var AuthUserInteractionsService = /** @class */ (function (_super) {
      * @return {?}
      */
     function () {
-        return this.dialog.open(LogoutConfirmDialogComponent).afterClosed();
+        return this._dialog.open(LogoutConfirmDialogComponent).afterClosed();
     };
     /**
      * @param {?} error
@@ -86,7 +86,7 @@ var AuthUserInteractionsService = /** @class */ (function (_super) {
      * @return {?}
      */
     function (error) {
-        this.snackBar.open(error, undefined, { duration: 3000 });
+        this._snackBar.open(error, undefined, { duration: 3000 });
     };
     return AuthUserInteractionsService;
 }(AuthUserInteractionsService$1));
@@ -194,16 +194,6 @@ var AuthModule = /** @class */ (function () {
     ];
     return AuthModule;
 }());
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { AuthModule, LoginComponent, LogoutConfirmDialogComponent as ɵa, AuthUserInteractionsService as ɵb };
 //# sourceMappingURL=auth.es5.js.map

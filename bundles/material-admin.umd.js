@@ -21,7 +21,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@angular/forms'), require('@angular/material/autocomplete'), require('@angular/material/button'), require('@angular/material/card'), require('@angular/material/checkbox'), require('@angular/material/dialog'), require('@angular/material/form-field'), require('@angular/material/icon'), require('@angular/material/input'), require('@angular/material/paginator'), require('@angular/material/progress-bar'), require('@angular/material/radio'), require('@angular/material/select'), require('@angular/material/sort'), require('@angular/material/table'), require('@angular/material/toolbar'), require('@angular/router'), require('@ngx-translate/core'), require('@gngt/core/common'), require('@gngt/core/admin'), require('@angular/cdk/collections'), require('@gngt/material/model')) :
     typeof define === 'function' && define.amd ? define('@gngt/material/admin', ['exports', '@angular/common', '@angular/core', '@angular/forms', '@angular/material/autocomplete', '@angular/material/button', '@angular/material/card', '@angular/material/checkbox', '@angular/material/dialog', '@angular/material/form-field', '@angular/material/icon', '@angular/material/input', '@angular/material/paginator', '@angular/material/progress-bar', '@angular/material/radio', '@angular/material/select', '@angular/material/sort', '@angular/material/table', '@angular/material/toolbar', '@angular/router', '@ngx-translate/core', '@gngt/core/common', '@gngt/core/admin', '@angular/cdk/collections', '@gngt/material/model'], factory) :
-    (global = global || self, factory((global.dewco = global.dewco || {}, global.dewco.material = global.dewco.material || {}, global.dewco.material.admin = {}), global.ng.common, global.ng.core, global.ng.forms, global.ng.material.autocomplete, global.ng.material.button, global.ng.material.card, global.ng.material.checkbox, global.ng.material.dialog, global.ng.material.formField, global.ng.material.icon, global.ng.material.input, global.ng.material.paginator, global.ng.material.progressBar, global.ng.material.radio, global.ng.material.select, global.ng.material.sort, global.ng.material.table, global.ng.material.toolbar, global.ng.router, global.ngxt.core, global.gngt.core.common, global.gngt.core.admin, global.ng.cdk.collections));
+    (global = global || self, factory((global.gngt = global.gngt || {}, global.gngt.material = global.gngt.material || {}, global.gngt.material.admin = {}), global.ng.common, global.ng.core, global.ng.forms, global.ng.material.autocomplete, global.ng.material.button, global.ng.material.card, global.ng.material.checkbox, global.ng.material.dialog, global.ng.material.formField, global.ng.material.icon, global.ng.material.input, global.ng.material.paginator, global.ng.material.progressBar, global.ng.material.radio, global.ng.material.select, global.ng.material.sort, global.ng.material.table, global.ng.material.toolbar, global.ng.router, global.ngxt.core, global.gngt.core.common, global.gngt.core.admin, global.ng.cdk.collections));
 }(this, function (exports, common, core, forms, autocomplete, button, card, checkbox, dialog, formField, icon, input, paginator, progressBar, radio, select, sort, table, toolbar, router, core$1, common$1, admin, collections) { 'use strict';
 
     /*! *****************************************************************************
@@ -77,9 +77,9 @@
      */
     var AdminUserInteractionsService = /** @class */ (function (_super) {
         __extends(AdminUserInteractionsService, _super);
-        function AdminUserInteractionsService(dialog) {
+        function AdminUserInteractionsService(_dialog) {
             var _this = _super.call(this) || this;
-            _this.dialog = dialog;
+            _this._dialog = _dialog;
             return _this;
         }
         /**
@@ -89,7 +89,7 @@
          * @return {?}
          */
         function () {
-            return this.dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
+            return this._dialog.open(AdminDeleteConfirmDialogComponent).afterClosed();
         };
         AdminUserInteractionsService.decorators = [
             { type: core.Injectable },
@@ -330,9 +330,9 @@
         ]; };
         AdminListComponent.propDecorators = {
             dataSource: [{ type: core.Input }],
-            paginatorCmp: [{ type: core.ViewChild, args: [paginator.MatPaginator,] }],
-            sortCmp: [{ type: core.ViewChild, args: [sort.MatSort,] }],
-            actionSel: [{ type: core.ViewChild, args: ['actionSel', { read: select.MatSelect },] }],
+            paginatorCmp: [{ type: core.ViewChild, args: [paginator.MatPaginator, { static: true },] }],
+            sortCmp: [{ type: core.ViewChild, args: [sort.MatSort, { static: true },] }],
+            actionSel: [{ type: core.ViewChild, args: ['actionSel', { static: true, read: select.MatSelect },] }],
             cellTemplates: [{ type: core.ContentChildren, args: [AdminListCellDirective,] }]
         };
         return AdminListComponent;

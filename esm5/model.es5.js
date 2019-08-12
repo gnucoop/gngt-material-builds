@@ -43,6 +43,7 @@ ModelDataSource = /** @class */ (function (_super) {
         _this._baseParams = _baseParams;
         _this._sort = null;
         _this._filter = new BehaviorSubject('');
+        _this._freeTextSearchFields = new BehaviorSubject([]);
         _this._filters = new BehaviorSubject({});
         _this._paginator = null;
         _this._data = new BehaviorSubject([]);
@@ -81,6 +82,21 @@ ModelDataSource = /** @class */ (function (_super) {
          */
         function (filter) {
             this._filter.next(filter);
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(ModelDataSource.prototype, "freeTextSearchFields", {
+        get: /**
+         * @return {?}
+         */
+        function () { return this._freeTextSearchFields.value; },
+        set: /**
+         * @param {?} freeTextSearchFields
+         * @return {?}
+         */
+        function (freeTextSearchFields) {
+            this._freeTextSearchFields.next(freeTextSearchFields.slice());
         },
         enumerable: true,
         configurable: true
@@ -184,7 +200,7 @@ ModelDataSource = /** @class */ (function (_super) {
      */
     function () {
         var _this = this;
-        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._filters, this._refreshEvent).pipe(startWith([null, null, null, null]), debounceTime(10), switchMap((/**
+        this._dataSubscription = combineLatest(this._paginatorParams, this._sortParams, this._filter, this._freeTextSearchFields, this._filters, this._refreshEvent).pipe(startWith([null, null, null, null, null]), debounceTime(10), switchMap((/**
          * @param {?} p
          * @return {?}
          */
@@ -195,9 +211,30 @@ ModelDataSource = /** @class */ (function (_super) {
             /** @type {?} */
             var sort = p[1];
             /** @type {?} */
-            var filters = p[3];
+            var filter = p[2];
             /** @type {?} */
-            var params = __assign({}, _this._baseParams, { selector: __assign({}, filters) });
+            var freeTextSearchFields = p[3];
+            /** @type {?} */
+            var filters = p[4];
+            /** @type {?} */
+            var freeTextSel = {};
+            /** @type {?} */
+            var filterWord = (filter || '').trim();
+            if (filter != null && freeTextSearchFields != null
+                && filterWord.length > 0 && freeTextSearchFields.length > 0) {
+                freeTextSel['$or'] = freeTextSearchFields.map((/**
+                 * @param {?} key
+                 * @return {?}
+                 */
+                function (key) {
+                    /** @type {?} */
+                    var keySel = {};
+                    keySel[key] = { '$regex': filterWord };
+                    return keySel;
+                }));
+            }
+            /** @type {?} */
+            var params = __assign({}, _this._baseParams, { selector: __assign({}, filters, freeTextSel) });
             if (pagination != null) {
                 /** @type {?} */
                 var pag = (/** @type {?} */ (pagination));
@@ -274,21 +311,6 @@ ModelDataSource = /** @class */ (function (_super) {
     };
     return ModelDataSource;
 }(DataSource));
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { ModelDataSource };
 //# sourceMappingURL=model.es5.js.map

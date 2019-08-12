@@ -21,7 +21,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/cdk/collections'), require('rxjs'), require('rxjs/operators')) :
     typeof define === 'function' && define.amd ? define('@gngt/material/model', ['exports', '@angular/core', '@angular/cdk/collections', 'rxjs', 'rxjs/operators'], factory) :
-    (global = global || self, factory((global.dewco = global.dewco || {}, global.dewco.material = global.dewco.material || {}, global.dewco.material.model = {}), global.ng.core, global.ng.cdk.collections, global.rxjs, global.rxjs.operators));
+    (global = global || self, factory((global.gngt = global.gngt || {}, global.gngt.material = global.gngt.material || {}, global.gngt.material.model = {}), global.ng.core, global.ng.cdk.collections, global.rxjs, global.rxjs.operators));
 }(this, function (exports, core, collections, rxjs, operators) { 'use strict';
 
     /*! *****************************************************************************
@@ -83,6 +83,7 @@
             _this._baseParams = _baseParams;
             _this._sort = null;
             _this._filter = new rxjs.BehaviorSubject('');
+            _this._freeTextSearchFields = new rxjs.BehaviorSubject([]);
             _this._filters = new rxjs.BehaviorSubject({});
             _this._paginator = null;
             _this._data = new rxjs.BehaviorSubject([]);
@@ -121,6 +122,21 @@
              */
             function (filter) {
                 this._filter.next(filter);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(ModelDataSource.prototype, "freeTextSearchFields", {
+            get: /**
+             * @return {?}
+             */
+            function () { return this._freeTextSearchFields.value; },
+            set: /**
+             * @param {?} freeTextSearchFields
+             * @return {?}
+             */
+            function (freeTextSearchFields) {
+                this._freeTextSearchFields.next(freeTextSearchFields.slice());
             },
             enumerable: true,
             configurable: true
@@ -224,7 +240,7 @@
          */
         function () {
             var _this = this;
-            this._dataSubscription = rxjs.combineLatest(this._paginatorParams, this._sortParams, this._filter, this._filters, this._refreshEvent).pipe(operators.startWith([null, null, null, null]), operators.debounceTime(10), operators.switchMap((/**
+            this._dataSubscription = rxjs.combineLatest(this._paginatorParams, this._sortParams, this._filter, this._freeTextSearchFields, this._filters, this._refreshEvent).pipe(operators.startWith([null, null, null, null, null]), operators.debounceTime(10), operators.switchMap((/**
              * @param {?} p
              * @return {?}
              */
@@ -235,9 +251,30 @@
                 /** @type {?} */
                 var sort = p[1];
                 /** @type {?} */
-                var filters = p[3];
+                var filter = p[2];
                 /** @type {?} */
-                var params = __assign({}, _this._baseParams, { selector: __assign({}, filters) });
+                var freeTextSearchFields = p[3];
+                /** @type {?} */
+                var filters = p[4];
+                /** @type {?} */
+                var freeTextSel = {};
+                /** @type {?} */
+                var filterWord = (filter || '').trim();
+                if (filter != null && freeTextSearchFields != null
+                    && filterWord.length > 0 && freeTextSearchFields.length > 0) {
+                    freeTextSel['$or'] = freeTextSearchFields.map((/**
+                     * @param {?} key
+                     * @return {?}
+                     */
+                    function (key) {
+                        /** @type {?} */
+                        var keySel = {};
+                        keySel[key] = { '$regex': filterWord };
+                        return keySel;
+                    }));
+                }
+                /** @type {?} */
+                var params = __assign({}, _this._baseParams, { selector: __assign({}, filters, freeTextSel) });
                 if (pagination != null) {
                     /** @type {?} */
                     var pag = (/** @type {?} */ (pagination));

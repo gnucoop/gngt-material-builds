@@ -23,9 +23,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { AuthUserInteractionsService as CoreAuthUserInteractionsService } from '@gngt/core/auth';
 export declare class AuthUserInteractionsService extends CoreAuthUserInteractionsService {
-    private dialog;
-    private snackBar;
-    constructor(dialog: MatDialog, snackBar: MatSnackBar);
+    private _dialog;
+    private _snackBar;
+    constructor(_dialog: MatDialog, _snackBar: MatSnackBar);
     askLogoutConfirm(): Observable<boolean>;
     showLoginError(error: string): void;
 }

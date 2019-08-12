@@ -22,7 +22,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { AdminUserInteractionsService as CoreAdminUserInteractionsService } from '@gngt/core/admin';
 export declare class AdminUserInteractionsService extends CoreAdminUserInteractionsService {
-    private dialog;
-    constructor(dialog: MatDialog);
+    private _dialog;
+    constructor(_dialog: MatDialog);
     askDeleteConfirm(): Observable<boolean>;
 }

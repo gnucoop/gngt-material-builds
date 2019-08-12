@@ -58,26 +58,26 @@ LogoutConfirmDialogComponent.decorators = [
  */
 class AuthUserInteractionsService extends AuthUserInteractionsService$1 {
     /**
-     * @param {?} dialog
-     * @param {?} snackBar
+     * @param {?} _dialog
+     * @param {?} _snackBar
      */
-    constructor(dialog, snackBar) {
+    constructor(_dialog, _snackBar) {
         super();
-        this.dialog = dialog;
-        this.snackBar = snackBar;
+        this._dialog = _dialog;
+        this._snackBar = _snackBar;
     }
     /**
      * @return {?}
      */
     askLogoutConfirm() {
-        return this.dialog.open(LogoutConfirmDialogComponent).afterClosed();
+        return this._dialog.open(LogoutConfirmDialogComponent).afterClosed();
     }
     /**
      * @param {?} error
      * @return {?}
      */
     showLoginError(error) {
-        this.snackBar.open(error, undefined, { duration: 3000 });
+        this._snackBar.open(error, undefined, { duration: 3000 });
     }
 }
 
@@ -180,16 +180,6 @@ AuthModule.decorators = [
                 ]
             },] },
 ];
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
-
-/**
- * @fileoverview added by tsickle
- * @suppress {checkTypes,extraRequire,missingOverride,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
- */
 
 export { AuthModule, LoginComponent, LogoutConfirmDialogComponent as ɵa, AuthUserInteractionsService as ɵb };
 //# sourceMappingURL=auth.js.map

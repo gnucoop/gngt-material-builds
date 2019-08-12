@@ -21,7 +21,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/core'), require('@angular/forms'), require('@angular/material/button'), require('@ngx-translate/core'), require('@gngt/core/calendar')) :
     typeof define === 'function' && define.amd ? define('@gngt/material/calendar', ['exports', '@angular/common', '@angular/core', '@angular/forms', '@angular/material/button', '@ngx-translate/core', '@gngt/core/calendar'], factory) :
-    (global = global || self, factory((global.dewco = global.dewco || {}, global.dewco.material = global.dewco.material || {}, global.dewco.material.calendar = {}), global.ng.common, global.ng.core, global.ng.forms, global.ng.material.button, global.ngxt.core, global.gngt.core.calendar));
+    (global = global || self, factory((global.gngt = global.gngt || {}, global.gngt.material = global.gngt.material || {}, global.gngt.material.calendar = {}), global.ng.common, global.ng.core, global.ng.forms, global.ng.material.button, global.ngxt.core, global.gngt.core.calendar));
 }(this, function (exports, common, core, forms, button, core$1, calendar) { 'use strict';
 
     /*! *****************************************************************************

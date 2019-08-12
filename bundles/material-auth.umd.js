@@ -21,7 +21,7 @@
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/common'), require('@angular/common/http'), require('@angular/core'), require('@angular/forms'), require('@angular/material/button'), require('@angular/material/card'), require('@angular/material/dialog'), require('@angular/material/form-field'), require('@angular/material/input'), require('@angular/material/snack-bar'), require('@ngx-translate/core'), require('@gngt/core/auth'), require('@gngt/core/common'), require('@ngrx/store')) :
     typeof define === 'function' && define.amd ? define('@gngt/material/auth', ['exports', '@angular/common', '@angular/common/http', '@angular/core', '@angular/forms', '@angular/material/button', '@angular/material/card', '@angular/material/dialog', '@angular/material/form-field', '@angular/material/input', '@angular/material/snack-bar', '@ngx-translate/core', '@gngt/core/auth', '@gngt/core/common', '@ngrx/store'], factory) :
-    (global = global || self, factory((global.dewco = global.dewco || {}, global.dewco.material = global.dewco.material || {}, global.dewco.material.auth = {}), global.ng.common, global.ng.common.http, global.ng.core, global.ng.forms, global.ng.material.button, global.ng.material.card, global.ng.material.dialog, global.ng.material.formField, global.ng.material.input, global.ng.material.snackBar, global.ngxt.core, global.gngt.core.auth, global.gngt.core.common, global.ngrx.store));
+    (global = global || self, factory((global.gngt = global.gngt || {}, global.gngt.material = global.gngt.material || {}, global.gngt.material.auth = {}), global.ng.common, global.ng.common.http, global.ng.core, global.ng.forms, global.ng.material.button, global.ng.material.card, global.ng.material.dialog, global.ng.material.formField, global.ng.material.input, global.ng.material.snackBar, global.ngxt.core, global.gngt.core.auth, global.gngt.core.common, global.ngrx.store));
 }(this, function (exports, common, http, core, forms, button, card, dialog, formField, input, snackBar, core$1, auth, common$1, store) { 'use strict';
 
     /*! *****************************************************************************
@@ -81,10 +81,10 @@
      */
     var AuthUserInteractionsService = /** @class */ (function (_super) {
         __extends(AuthUserInteractionsService, _super);
-        function AuthUserInteractionsService(dialog, snackBar) {
+        function AuthUserInteractionsService(_dialog, _snackBar) {
             var _this = _super.call(this) || this;
-            _this.dialog = dialog;
-            _this.snackBar = snackBar;
+            _this._dialog = _dialog;
+            _this._snackBar = _snackBar;
             return _this;
         }
         /**
@@ -94,7 +94,7 @@
          * @return {?}
          */
         function () {
-            return this.dialog.open(LogoutConfirmDialogComponent).afterClosed();
+            return this._dialog.open(LogoutConfirmDialogComponent).afterClosed();
         };
         /**
          * @param {?} error
@@ -105,7 +105,7 @@
          * @return {?}
          */
         function (error) {
-            this.snackBar.open(error, undefined, { duration: 3000 });
+            this._snackBar.open(error, undefined, { duration: 3000 });
         };
         return AuthUserInteractionsService;
     }(auth.AuthUserInteractionsService));
